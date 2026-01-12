@@ -35,7 +35,7 @@ packages:
 
   # just
   - id: just
-    winget-id: casey.just
+    winget-id: Casey.Just
     version-source:
       type: github
       owner: casey
@@ -64,5 +64,141 @@ packages:
     installers:
       - architecture: x64
         url: https://github.com/simonmichael/hledger/releases/download/{version}/hledger-windows-x64.zip
+        installer-type: zip
+    skip-checks: []
+
+  # OpenWebStart
+  - id: openwebstart
+    winget-id: karakun.OpenWebStart
+    version-source:
+      type: github
+      owner: karakun
+      repo: OpenWebStart
+    version-parser:
+      type: regex
+      pattern: ^v?(\d+\.\d+\.\d+)$
+      tag-filter: ^v?\d+\.\d+\.\d+$
+    installers:
+      - architecture: x64
+        url: https://github.com/karakun/OpenWebStart/releases/download/v{version}/OpenWebStart_windows-x64_{version//./_}.exe
+        installer-type: exe
+    skip-checks: []
+
+  # ytt
+  - id: ytt
+    winget-id: Carvel.ytt
+    version-source:
+      type: github
+      owner: carvel-dev
+      repo: ytt
+    version-parser:
+      type: regex
+      pattern: ^v?(\d+\.\d+\.\d+)$
+      tag-filter: ^v?\d+\.\d+\.\d+$
+    installers:
+      - architecture: x64
+        url: https://github.com/carvel-dev/ytt/releases/download/v{version}/ytt-windows-amd64.exe
+        installer-type: exe
+    skip-checks: []
+
+  # RipShout
+  - id: ripshout
+    winget-id: FleetingClarityStudios.RipShout
+    version-source:
+      type: github
+      owner: Echostorm44
+      repo: RipShout
+    version-parser:
+      type: regex
+      pattern: ^(\d+\.\d+)$
+      tag-filter: ^\d+\.\d+$
+    installers:
+      - architecture: x64
+        url: https://github.com/Echostorm44/RipShout/releases/download/{version}/installer.exe
+        installer-type: exe
+    skip-checks: []
+
+  # Flowify Music Player
+  - id: flowify-music-player
+    winget-id: Flowify.Flowify
+    version-source:
+      type: github
+      owner: naplon74
+      repo: flowify-music-player
+    version-parser:
+      type: regex
+      pattern: ^v?(\d+\.\d+\.\d+)$
+      tag-filter: ^v?\d+\.\d+\.\d+$
+    installers:
+      - architecture: x64
+        url: https://github.com/naplon74/flowify-music-player/releases/download/v{version}/Flowify-Setup-{version}.exe
+        installer-type: exe
+    skip-checks: []
+
+  # mpeg-sdl-tool
+  - id: mpeg-sdl-tool
+    winget-id: Flowscripter.mpeg-sdl-tool
+    version-source:
+      type: github
+      owner: flowscripter
+      repo: mpeg-sdl-tool
+    version-parser:
+      type: regex
+      pattern: ^v?(\d+\.\d+\.\d+)$
+      tag-filter: ^v?\d+\.\d+\.\d+$
+    installers:
+      - architecture: x64
+        url: https://github.com/flowscripter/mpeg-sdl-tool/releases/download/v{version}/mpeg-sdl-tool_Windows_x86_64.zip
+        installer-type: zip
+    skip-checks: []
+
+  # example-cli
+  - id: example-cli
+    winget-id: Flowscripter.example-cli
+    version-source:
+      type: github
+      owner: flowscripter
+      repo: example-cli
+    version-parser:
+      type: regex
+      pattern: ^v?(\d+\.\d+\.\d+)$
+      tag-filter: ^v?\d+\.\d+\.\d+$
+    installers:
+      - architecture: x64
+        url: https://github.com/flowscripter/example-cli/releases/download/v{version}/example-cli_Windows_x86_64.zip
+        installer-type: zip
+    skip-checks: []
+
+  # template-bun-executable
+  - id: template-bun-executable
+    winget-id: Flowscripter.template-bun-executable
+    version-source:
+      type: github
+      owner: flowscripter
+      repo: template-bun-executable
+    version-parser:
+      type: regex
+      pattern: ^v?(\d+\.\d+\.\d+)$
+      tag-filter: ^v?\d+\.\d+\.\d+$
+    installers:
+      - architecture: x64
+        url: https://github.com/flowscripter/template-bun-executable/releases/download/v{version}/template-bun-executable_Windows_x86_64.zip
+        installer-type: zip
+    skip-checks: []
+
+  # fluxzy-cli
+  - id: fluxzy-cli
+    winget-id: Fluxzy.Fluxzy
+    version-source:
+      type: github
+      owner: haga-rak
+      repo: fluxzy.core
+    version-parser:
+      type: regex
+      pattern: ^v?(\d+\.\d+\.\d+\.\d+)$
+      tag-filter: ^v?\d+\.\d+\.\d+\.\d+$
+    installers:
+      - architecture: x64
+        url: https://github.com/haga-rak/fluxzy.core/releases/download/v{version}/fluxzy-cli-{version}-win-x86.zip
         installer-type: zip
     skip-checks: []
