@@ -15,7 +15,7 @@ packages:
         url: https://github.com/aome510/spotify-player/releases/download/v{version}/spotify_player-x86_64-pc-windows-msvc.zip
         installer-type: zip
     skip-checks: []
-    
+
   # uv (Astral)
   - id: uv
     winget-id: astral-sh.uv
@@ -30,5 +30,21 @@ packages:
     installers:
       - architecture: x64
         url: https://github.com/astral-sh/uv/releases/download/{version}/uv-x86_64-pc-windows-msvc.zip
+        installer-type: zip
+    skip-checks: []
+
+  - id: just
+    winget-id: casey.just
+    version-source:
+      type: github
+      owner: casey
+      repo: just
+    version-parser:
+      type: regex
+      pattern: ^(\d+\.\d+\.\d+)$
+      tag-filter: ^\d+\.\d+\.\d+$
+    installers:
+      - architecture: x64
+        url: https://github.com/casey/just/releases/download/{version}/just-{version}-x86_64-pc-windows-msvc.zip
         installer-type: zip
     skip-checks: []
