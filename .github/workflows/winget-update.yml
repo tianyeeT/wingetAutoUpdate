@@ -1,0 +1,43 @@
+name: Winget Package Auto Update
+
+on:
+  schedule:
+    # 每天运行一次，时间可自定义
+    - cron: '0 0 * * *'
+  workflow_dispatch:  # 支持手动触发
+
+jobs:
+  check-updates:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Setup Komac
+        uses: michidk/run-komac@v2
+
+      - name: Configure git
+        run: |
+          git config --global user.name "${{ secrets.GIT_USER_NAME || 'Winget Bot' }}"
+          git config --global user.email "${{ secrets.GIT_USER_EMAIL || 'bot@example.com' }}"
+
+      - name: Check for package updates
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WINGET_PKGS_TOKEN: ${{ secrets.WINGET_PKGS_TOKEN }}
+        run: |
+          python scripts/check_updates.py --config config/packages.yaml
