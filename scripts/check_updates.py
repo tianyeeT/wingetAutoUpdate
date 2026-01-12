@@ -144,34 +144,60 @@ class VersionChecker:
         winget_id = package["winget-id"]
 
         try:
-            # 使用 GitHub API 搜索 winget-pkgs 中的包文件
+            # 将 winget-id 转换为文件路径格式
+            # 例如: aome510.spotify-player -> a/aome510/spotify-player
+            parts = winget_id.split(".")
+            if len(parts) < 2:
+                print(f"Invalid winget-id format: {winget_id}")
+                return None
+
+            publisher = parts[0]
+            package_name = ".".join(parts[1:])
+            first_letter = publisher[0].lower()
+
+            # 构建包目录路径
+            package_dir = f"manifests/{first_letter}/{publisher}/{package_name}"
+
+            # 使用 GitHub API 获取该目录下的所有版本目录
             headers = {}
             if self.github_token:
                 headers["Authorization"] = f"token {self.github_token}"
 
-            query = (
-                f'"{winget_id}" repo:microsoft/winget-pkgs path:.yaml extension:yaml'
-            )
-            url = f"https://api.github.com/search/code?q={query}"
-
+            url = f"https://api.github.com/repos/microsoft/winget-pkgs/contents/{package_dir}"
             response = requests.get(url, headers=headers, timeout=30)
+
+            if response.status_code == 404:
+                print(f"Package {winget_id} not found in winget-pkgs")
+                return None
+
             response.raise_for_status()
             data = response.json()
 
-            if not data.get("items"):
-                print(f"No files found for {winget_id}")
+            # 过滤出目录（版本目录）
+            version_dirs = [dir["name"] for dir in data if dir["type"] == "dir"]
+
+            if not version_dirs:
+                print(f"No version directories found for {winget_id}")
                 return None
 
-            # 获取最新修改的文件
-            items = data["items"]
-            items.sort(key=lambda x: x["updated_at"], reverse=True)
-            latest_file = items[0]
+            # 找到最新的版本目录（按版本号排序）
+            version_dirs.sort(reverse=True)
+            latest_version_dir = version_dirs[0]
 
-            # 获取文件内容
-            raw_url = latest_file["raw_url"]
-            content_response = requests.get(raw_url, timeout=30)
-            content_response.raise_for_status()
-            content = content_response.text
+            # 读取该版本目录的主 manifest 文件
+            # 主 manifest 文件名是 {winget-id}.yaml
+            manifest_file = f"{winget_id}.yaml"
+            manifest_url = f"https://raw.githubusercontent.com/microsoft/winget-pkgs/master/{package_dir}/{latest_version_dir}/{manifest_file}"
+
+            manifest_response = requests.get(manifest_url, headers=headers, timeout=30)
+
+            if manifest_response.status_code == 404:
+                # 如果主 manifest 不存在，尝试其他文件
+                print(f"Main manifest not found, trying alternatives...")
+                return None
+
+            manifest_response.raise_for_status()
+            content = manifest_response.text
 
             # 解析 YAML 获取版本号
             match = re.search(r"PackageVersion:\s*([\d.]+)", content)
@@ -276,6 +302,14 @@ class VersionChecker:
 
             # 比较版本
             comparison = self._compare_versions(latest_version, current_version)
+
+            if not current_version:
+                # 包不存在于 winget-pkgs，需要创建新包
+                print(f"Package {package['winget-id']} not found in winget-pkgs")
+                print(
+                    f"To create a new package, use: komac new --id {package['winget-id']} --version {latest_version}"
+                )
+                continue
 
             if comparison > 0:
                 print(f"Update available: {current_version} -> {latest_version}")
