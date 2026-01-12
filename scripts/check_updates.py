@@ -260,7 +260,10 @@ class VersionChecker:
             url = installer.get("url")
             url_template = installer.get("url-template")
 
-            final_url = url if url else url_template.replace("{version}", version)
+            # 替换 {version} 占位符
+            final_url = url if url else url_template
+            if final_url and "{version}" in final_url:
+                final_url = final_url.replace("{version}", version)
 
             try:
                 response = requests.head(final_url, allow_redirects=True, timeout=10)
