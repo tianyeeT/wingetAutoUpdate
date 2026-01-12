@@ -27,8 +27,13 @@ jobs:
         run: |
           pip install -r requirements.txt
 
-      - name: Setup Komac
-        uses: michidk/run-komac@v2
+      - name: Install Komac
+        run: |
+          curl -Lo komac.tar.gz https://github.com/russellbanks/Komac/releases/latest/download/komac-x86_64-unknown-linux-gnu.tar.gz
+          tar -xzf komac.tar.gz
+          sudo mv komac /usr/local/bin/
+          sudo chmod +x /usr/local/bin/komac
+          komac --version
 
       - name: Configure git
         run: |
