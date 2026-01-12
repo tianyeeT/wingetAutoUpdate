@@ -33,6 +33,7 @@ packages:
         installer-type: zip
     skip-checks: []
 
+  # just
   - id: just
     winget-id: casey.just
     version-source:
@@ -46,5 +47,22 @@ packages:
     installers:
       - architecture: x64
         url: https://github.com/casey/just/releases/download/{version}/just-{version}-x86_64-pc-windows-msvc.zip
+        installer-type: zip
+    skip-checks: []
+
+  # hledger
+  - id: hledger
+    winget-id: simonmichael.hledger
+    version-source:
+      type: github
+      owner: simonmichael
+      repo: hledger
+    version-parser:
+      type: regex
+      pattern: ^(\d+\.\d+\.\d+)$
+      tag-filter: ^\d+\.\d+\.\d+$
+    installers:
+      - architecture: x64
+        url: https://github.com/simonmichael/hledger/releases/download/{version}/hledger-windows-x64.zip
         installer-type: zip
     skip-checks: []
