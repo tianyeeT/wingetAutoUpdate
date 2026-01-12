@@ -236,6 +236,7 @@ class VersionChecker:
     def _generate_komac_command(self, package: Dict, new_version: str) -> List[str]:
         """生成 komac update 命令"""
         winget_id = package["winget-id"]
+        installers = package.get("installers", [])
 
         cmd = [
             "komac",
@@ -244,8 +245,21 @@ class VersionChecker:
             winget_id,
             "--version",
             new_version,
-            "--submit",
         ]
+
+        # 添加每个安装包的 URL
+        for installer in installers:
+            url = installer.get("url")
+            url_template = installer.get("url-template")
+
+            # 替换 {version} 占位符
+            installer_url = url if url else url_template
+            if installer_url and "{version}" in installer_url:
+                installer_url = installer_url.replace("{version}", new_version)
+
+            cmd.extend(["--urls", installer_url])
+
+        cmd.append("--submit")
 
         return cmd
 
