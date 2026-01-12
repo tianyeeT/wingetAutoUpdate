@@ -241,7 +241,7 @@ class VersionChecker:
         cmd = [
             "komac",
             "update",
-            "--id",
+            "Package.Identifier",
             winget_id,
             "--version",
             new_version,
