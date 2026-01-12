@@ -29,10 +29,17 @@ jobs:
 
       - name: Install Komac
         run: |
-          curl -Lo komac.tar.gz https://github.com/russellbanks/Komac/releases/latest/download/komac-x86_64-unknown-linux-gnu.tar.gz
-          tar -xzf komac.tar.gz
-          sudo mv komac /usr/local/bin/
-          sudo chmod +x /usr/local/bin/komac
+          # 获取最新版本
+          KOMAC_VERSION=$(curl -s https://api.github.com/repos/russellbanks/Komac/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1')
+          echo "Installing Komac version: $KOMAC_VERSION"
+          
+          # 下载 deb 包
+          curl -Lo komac.deb "https://github.com/russellbanks/Komac/releases/download/${KOMAC_VERSION}/komac_${KOMAC_VERSION#v}-1_amd64.deb"
+          
+          # 安装
+          sudo dpkg -i komac.deb
+          
+          # 验证安装
           komac --version
 
       - name: Configure git
