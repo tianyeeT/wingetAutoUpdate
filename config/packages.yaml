@@ -304,3 +304,20 @@ packages:
         url: https://github.com/cryptomator/cryptomator/releases/download/v{version}/Cryptomator-{version}-x64.exe
         installer-type: exe
     skip-checks: []
+
+  # Flameshot
+  - id: flameshot
+    winget-id: Flameshot.Flameshot
+    version-source:
+      type: github
+      owner: flameshot-org
+      repo: flameshot
+    version-parser:
+      type: regex
+      pattern: ^v?(\d+\.\d+\.\d+)$
+      tag-filter: ^v?\d+\.\d+\.\d+$
+    installers:
+      - architecture: x64
+        url: https://github.com/flameshot-org/flameshot/releases/download/v{version}/Flameshot-{version}-win64.msi
+        installer-type: msi
+    skip-checks: []
