@@ -219,3 +219,20 @@ packages:
         url: https://github.com/spacelift-io/spacectl/releases/download/v{version}/spacectl_{version}_windows_amd64.zip
         installer-type: zip
     skip-checks: []
+
+  # SLADE
+  - id: slade
+    winget-id: srjuddington.slade
+    version-source:
+      type: github
+      owner: sirjuddington
+      repo: SLADE
+    version-parser:
+      type: regex
+      pattern: ^(\d+\.\d+\.\d+)$
+      tag-filter: ^\d+\.\d+\.\d+$
+    installers:
+      - architecture: x64
+        url: https://github.com/sirjuddington/SLADE/releases/download/{version}/Setup_SLADE_{version}.exe
+        installer-type: exe
+    skip-checks: []
