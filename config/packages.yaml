@@ -202,3 +202,20 @@ packages:
         url: https://github.com/haga-rak/fluxzy.core/releases/download/v{version}/fluxzy-cli-{version}-win-x86.zip
         installer-type: zip
     skip-checks: []
+
+  # spacectl
+  - id: spacectl
+    winget-id: spacelift-io.spacectl
+    version-source:
+      type: github
+      owner: spacelift-io
+      repo: spacectl
+    version-parser:
+      type: regex
+      pattern: ^v?(\d+\.\d+\.\d+)$
+      tag-filter: ^v?\d+\.\d+\.\d+$
+    installers:
+      - architecture: x64
+        url: https://github.com/spacelift-io/spacectl/releases/download/v{version}/spacectl_{version}_windows_amd64.zip
+        installer-type: zip
+    skip-checks: []
