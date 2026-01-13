@@ -287,3 +287,20 @@ packages:
         url: https://github.com/spyder-ide/spyder/releases/download/v{version}/Spyder-Windows-x86_64.exe
         installer-type: exe
     skip-checks: []
+
+  # Cryptomator
+  - id: cryptomator
+    winget-id: Cryptomator.Cryptomator
+    version-source:
+      type: github
+      owner: cryptomator
+      repo: cryptomator
+    version-parser:
+      type: regex
+      pattern: ^v?(\d+\.\d+\.\d+)$
+      tag-filter: ^v?\d+\.\d+\.\d+$
+    installers:
+      - architecture: x64
+        url: https://github.com/cryptomator/cryptomator/releases/download/v{version}/Cryptomator-{version}-x64.exe
+        installer-type: exe
+    skip-checks: []
