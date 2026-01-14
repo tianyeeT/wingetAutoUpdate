@@ -338,3 +338,20 @@ packages:
         url: https://github.com/istio/istio/releases/download/{version}/istio-{version}-win-amd64.zip
         installer-type: zip
     skip-checks: []
+
+  # geteduroam
+  - id: geteduroam
+    winget-id: geteduroam.geteduroam
+    version-source:
+      type: github
+      owner: geteduroam
+      repo: windows-app
+    version-parser:
+      type: regex
+      pattern: ^v?(\d+\.\d+\.\d+)$
+      tag-filter: ^v?\d+\.\d+\.\d+$
+    installers:
+      - architecture: x64
+        url: https://github.com/geteduroam/windows-app/releases/download/v{version}/geteduroam.exe
+        installer-type: exe
+    skip-checks: []
