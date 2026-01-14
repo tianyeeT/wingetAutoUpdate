@@ -423,3 +423,20 @@ packages:
         url: https://github.com/QuestPackageManager/QPM.CLI/releases/download/v{version}/installer-windows-x64.zip
         installer-type: zip
     skip-checks: []
+
+  # Eclipse Flash Tool
+  - id: eclipse-flash-tool
+    winget-id: NDXCode.EclipseFlashTool
+    version-source:
+      type: github
+      owner: NDXCode
+      repo: Eclipse-Flash-Tool
+    version-parser:
+      type: regex
+      pattern: ^v?(\d+\.\d+)$
+      tag-filter: ^v?\d+\.\d+$
+    installers:
+      - architecture: x64
+        url: https://github.com/NDXCode/Eclipse-Flash-Tool/releases/download/v{version}/Eclipse.Flash.Tool-v{version}.exe
+        installer-type: exe
+    skip-checks: []
