@@ -474,3 +474,20 @@ packages:
         url: https://github.com/ParetoSecurity/agent/releases/download/v{version}/paretosecurity-installer-amd64.exe
         installer-type: exe
     skip-checks: []
+
+  # Palamedes
+  - id: palamedes
+    winget-id: nikpapa.palamedes
+    version-source:
+      type: github
+      owner: nikpapa
+      repo: Palamedes
+    version-parser:
+      type: regex
+      pattern: ^(\d+\.\d+\.\d+)$
+      tag-filter: ^\d+\.\d+\.\d+$
+    installers:
+      - architecture: x64
+        url: https://github.com/nikpapa/Palamedes/releases/download/{version}/Palamedes_install_{version}.exe
+        installer-type: exe
+    skip-checks: []
