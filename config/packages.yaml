@@ -457,3 +457,20 @@ packages:
         url: https://github.com/NinjaCheetah/NUSGet/releases/download/v{version}/NUSGet-Windows-x86_64-bin.zip
         installer-type: zip
     skip-checks: []
+
+  # ParetoSecurity agent
+  - id: paretosecurity-agent
+    winget-id: NiteoGmbH.ParetoSecurity
+    version-source:
+      type: github
+      owner: ParetoSecurity
+      repo: agent
+    version-parser:
+      type: regex
+      pattern: ^v?(\d+\.\d+\.\d+)$
+      tag-filter: ^v?\d+\.\d+\.\d+$
+    installers:
+      - architecture: x64
+        url: https://github.com/ParetoSecurity/agent/releases/download/v{version}/paretosecurity-installer-amd64.exe
+        installer-type: exe
+    skip-checks: []
