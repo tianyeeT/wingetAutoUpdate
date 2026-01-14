@@ -440,3 +440,20 @@ packages:
         url: https://github.com/NDXCode/Eclipse-Flash-Tool/releases/download/v{version}/Eclipse.Flash.Tool-v{version}.exe
         installer-type: exe
     skip-checks: []
+
+  # NUSGet
+  - id: nusget
+    winget-id: NinjaCheetah.NUSGet
+    version-source:
+      type: github
+      owner: NinjaCheetah
+      repo: NUSGet
+    version-parser:
+      type: regex
+      pattern: ^v?(\d+\.\d+\.\d+)$
+      tag-filter: ^v?\d+\.\d+\.\d+$
+    installers:
+      - architecture: x64
+        url: https://github.com/NinjaCheetah/NUSGet/releases/download/v{version}/NUSGet-Windows-x86_64-bin.zip
+        installer-type: zip
+    skip-checks: []
