@@ -321,3 +321,20 @@ packages:
         url: https://github.com/flameshot-org/flameshot/releases/download/v{version}/Flameshot-{version}-win64.msi
         installer-type: msi
     skip-checks: []
+
+  # istio
+  - id: istio
+    winget-id: Istio.Istio
+    version-source:
+      type: github
+      owner: istio
+      repo: istio
+    version-parser:
+      type: regex
+      pattern: ^(\d+\.\d+\.\d+)$
+      tag-filter: ^\d+\.\d+\.\d+$
+    installers:
+      - architecture: x64
+        url: https://github.com/istio/istio/releases/download/{version}/istio-{version}-win-amd64.zip
+        installer-type: zip
+    skip-checks: []
