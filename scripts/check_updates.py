@@ -262,6 +262,43 @@ class VersionChecker:
 
         return cmd
 
+    def _has_existing_pr(self, winget_id: str, version: str) -> bool:
+        """检查是否已存在针对该包和版本的 open PR"""
+        headers = {"Accept": "application/vnd.github+json"}
+        if self.github_token:
+            headers["Authorization"] = f"token {self.github_token}"
+
+        # komac 提交的 PR 标题格式通常为:
+        #   New version: <winget-id> version <version>
+        # 同时也搜索包含包名和版本号的其他格式 PR
+        query = (
+            f"repo:microsoft/winget-pkgs is:pr is:open "
+            f'"{winget_id}" "{version}"'
+        )
+
+        try:
+            url = "https://api.github.com/search/issues"
+            params = {"q": query, "per_page": 5}
+            response = requests.get(url, headers=headers, params=params, timeout=30)
+            response.raise_for_status()
+            data = response.json()
+
+            total_count = data.get("total_count", 0)
+            if total_count > 0:
+                for pr in data.get("items", []):
+                    pr_number = pr.get("number")
+                    pr_title = pr.get("title", "")
+                    print(
+                        f"  Found existing open PR #{pr_number}: {pr_title}"
+                    )
+                return True
+
+            return False
+        except Exception as e:
+            print(f"  Warning: failed to check existing PRs for {winget_id}: {e}")
+            # 查检失败时不阻断流程，允许继续尝试提交
+            return False
+
     def _check_installer_urls(self, package: Dict, version: str) -> bool:
         """检查安装包 URL 是否有效"""
         skip_checks = package.get("skip-checks", [])
@@ -329,6 +366,12 @@ class VersionChecker:
 
             if comparison > 0:
                 print(f"Update available: {current_version} -> {latest_version}")
+
+                # 检查是否已存在 open PR
+                winget_id = package["winget-id"]
+                if self._has_existing_pr(winget_id, latest_version):
+                    print(f"Skipping update for {pkg_id}: PR already exists")
+                    continue
 
                 # 检查安装包 URL
                 if not self._check_installer_urls(package, latest_version):
