@@ -1,4 +1,21 @@
 packages:
+  # GEDKeeper
+  - id: gedkeeper
+    winget-id: Serg-Norseman.GEDKeeper
+    version-source:
+      type: github
+      owner: Serg-Norseman
+      repo: GEDKeeper
+    version-parser:
+      type: regex
+      pattern: ^v?(\d+\.\d+\.\d+)$
+      tag-filter: ^v?\d+\.\d+\.\d+$
+    installers:
+      - architecture: x64
+        url: https://github.com/Serg-Norseman/GEDKeeper/releases/download/v{version}/gedkeeper_{version}_win64.exe
+        installer-type: nullsoft
+    skip-checks: []
+  
   # Spotify Player
   - id: spotify-player
     winget-id: aome510.spotify-player  #
