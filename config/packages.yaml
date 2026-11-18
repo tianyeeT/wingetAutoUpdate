@@ -305,6 +305,9 @@ packages:
       - architecture: x64
         url: https://github.com/spacelift-io/spacectl/releases/download/v{version}/spacectl_{version}_windows_amd64.zip
         installer-type: zip
+        - architecture: arm64
+        url: https://github.com/spacelift-io/spacectl/releases/download/v{version}/spacectl_{version}_windows_arm64.zip
+        installer-type: zip
     skip-checks: []
 
   # SLADE
